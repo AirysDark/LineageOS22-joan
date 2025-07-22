@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="LineageOS/android_device_lge_joan" path="device/lge/joan" revision="lineage-22.2"/>
+  <project name="LineageOS/android_device_lge_joan-common" path="device/lge/joan-common" revision="lineage-22.2"/>
+
+  <!-- SrDayne custom kernel with NetHunter + monitor mode support -->
+  <project name="SrDayne/lge_msm8998_h930ds" path="kernel/lge/msm8998" remote="github" revision="master"/>
+
+  <project name="TheMuppets/proprietary_vendor_lge" path="vendor/lge" revision="lineage-22.2"/>
+</manifest>

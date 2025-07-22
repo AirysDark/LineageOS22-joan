@@ -1,0 +1,56 @@
+name: Build LOS22 for LG V30+ (joan)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib git gnupg gperf imagemagick \
+          lib32ncurses5-dev lib32readline-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libxml2-utils \
+          lzop openjdk-17-jdk pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
+
+    - name: Init LOS source
+      run: |
+        mkdir lineage && cd lineage
+        repo init -u https://github.com/LineageOS/android.git -b lineage-22.2
+        mkdir -p .repo/local_manifests
+        cp $GITHUB_WORKSPACE/local_manifests/joan.xml .repo/local_manifests/
+        repo sync -c -j4
+
+    - name: Setup build configuration
+      run: |
+        cd lineage
+        source build/envsetup.sh
+        lunch lineage_joan-userdebug
+
+    - name: Build full ROM
+      run: |
+        cd lineage
+        mka bacon -j$(nproc)
+
+    - name: Build boot + recovery
+      run: |
+        cd lineage
+        mka bootimage
+        mka recoveryimage
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: lineage-joan-22
+        path: |
+          lineage/out/target/product/joan/lineage-*.zip
+          lineage/out/target/product/joan/boot.img
+          lineage/out/target/product/joan/recovery.img
+          lineage/out/target/product/joan/dtbo.img
+          lineage/out/target/product/joan/vbmeta.img
+          lineage/out/target/product/joan/super.img
+          lineage/out/target/product/joan/kernel

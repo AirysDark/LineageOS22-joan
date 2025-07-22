@@ -1,0 +1,13 @@
+{
+  "response": [
+    {
+      "datetime": 1699999999,
+      "filename": "lineage-22.1-2025XXXX-UNOFFICIAL-joan.zip",
+      "id": "abc123def456",
+      "romtype": "unofficial",
+      "size": 987654321,
+      "url": "https://airysdark.github.io/LineageOS22-joan/lineage-22.1-2025XXXX-UNOFFICIAL-joan.zip",
+      "version": "22.1"
+    }
+  ]
+}
